@@ -1,1 +1,7 @@
-<%= "Hello my new app with Ruby on Rails" %>
+<% @projects.each do |project| %>
+  <div class="project">
+    <h2><%= project.name %></h2>
+    <p>Created by: <%= project.creator.username %></p>
+    <%= link_to "Show", project_path(project) %>
+  </div>
+<% end %>

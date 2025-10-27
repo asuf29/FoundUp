@@ -1,7 +1,136 @@
-<% @projects.each do |project| %>
-  <div class="project">
-    <h2><%= project.name %></h2>
-    <p>Created by: <%= project.creator.username %></p>
-    <%= link_to "Show", project_path(project) %>
-  </div>
-<% end %>
+<div class="flex-1 bg-gray-50">
+  <nav class="flex justify-between items-center px-8 py-4 bg-black shadow-sm border-b border-black sticky top-0 z-50">
+    <h1 class="text-2xl font-bold text-white tracking-tight">
+      <a href="/" class="relative group">
+        FoundUp
+        <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#cbf36e] transition-all duration-300 group-hover:w-full"></span>
+      </a>
+    </h1>
+    <ul class="hidden md:flex gap-8 text-white font-medium">
+      <li>
+        <%= link_to "Home",
+            root_path,
+            class: "hover:text-[#cbf36e] transition-all duration-300" %>
+      </li>
+      <li>
+        <%= link_to "Projects",
+            "#projects_path",
+            class: "hover:text-[#cbf36e] transition-all duration-300" %>
+      </li>
+      <li>
+        <%= link_to "About",
+            "#about_path",
+            class: "hover:text-[#cbf36e] transition-all duration-300" %>
+      </li>
+      <li>
+        <%= link_to "Contact",
+            "#contact_path",
+            class: "hover:text-[#cbf36e] transition-all duration-300" %>
+      </li>
+    </ul>
+    <div class="flex items-center gap-3">
+      <% if user_signed_in? %>
+        <%= button_to "Log out",
+            destroy_user_session_path,
+            method: :delete,
+            class: "relative bg-[#cbf36e] text-black text-lg rounded-lg px-4 py-2 font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg" %>
+      <% else %>
+        <%= link_to "Login",
+            new_user_session_path,
+            class: "text-white hover:text-[#cbf36e] transition-all duration-300" %>
+
+        <%= link_to "Sign Up",
+            new_user_registration_path,
+            class: "relative bg-blue-600 text-white px-5 py-2 rounded-lg font-medium overflow-hidden transition-all duration-300 hover:bg-blue-700 hover:scale-105 hover:shadow-lg" %>
+      <% end %>
+    </div>
+  </nav>
+  <section class="bg-black text-center py-24">
+    <h2 class="text-5xl font-extrabold text-white mb-6 tracking-tight">
+      Connecting <span class="text-[#cbf36e]">Developers</span> & <span class="text-[#966ef3]">Investors</span>
+    </h2>
+    <p class="text-gray-400 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+      FoundUp bridges the gap between innovation and opportunity — helping developers get funded, and investors discover the next big idea.
+    </p>
+    <div class="flex justify-center gap-5">
+      <%= link_to "Explore Projects",
+          projects_path,
+          class: "border-2 border-transparent bg-[#cbf36e] text-black px-8 py-3 rounded-xl shadow-md
+                  transition-all duration-300 hover:bg-[#d9ff90] hover:scale-105 hover:shadow-lg" %>
+
+      <% if current_user&.developer? %>
+        <%= link_to "Post a Project",
+            new_project_path,
+            class: "border border-white bg-black text-white px-8 py-3 rounded-xl shadow-md
+                    transition-all duration-300 hover:border-2 hover:scale-105 hover:shadow-lg" %>
+      <% end %>
+    </div>
+  </section>
+  <section class="max-w-6xl mx-auto px-6 py-12">
+    <div class="text-center mb-10">
+      <h3 class="text-gray-500 max-w-2xl mx-auto  mb-4">Highlights</h3> 
+      <p class="text-3xl font-bold text-gray-800">
+        Highlight your project, get investment
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+      <div class="bg-white shadow-lg rounded-lg p-6 h-64">
+        <h4 class="text-xl font-semibold mb-2">Project 1</h4>
+        <p class="text-gray-600">Short description about the project.</p>
+      </div>
+      <div class="bg-white shadow-lg rounded-lg p-6 h-64 mt-8">
+        <h4 class="text-xl font-semibold mb-2">Project 2</h4>
+        <p class="text-gray-600">Short description about the project.</p>
+      </div>
+      <div class="bg-white shadow-lg rounded-lg p-6 h-64">
+        <h4 class="text-xl font-semibold mb-2">Project 3</h4>
+        <p class="text-gray-600">Short description about the project.</p>
+      </div>
+      <div class="bg-white shadow-lg rounded-lg p-6 h-64 mt-8">
+        <h4 class="text-xl font-semibold mb-2">Project 4</h4>
+        <p class="text-gray-600">Short description about the project.</p>
+      </div>
+      <div class="bg-white shadow-lg rounded-lg p-6 h-64">
+        <h4 class="text-xl font-semibold mb-2">Project 5</h4>
+        <p class="text-gray-600">Short description about the project.</p>
+      </div>
+      <div class="bg-white shadow-lg rounded-lg p-6 h-64 mt-8">
+        <h4 class="text-xl font-semibold mb-2">Project 6</h4>
+        <p class="text-gray-600">Short description about the project.</p>
+      </div>
+    </div>
+  </section>
+  <section class="text-black mx-auto px-6 py-12">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
+      <div class="md:w-1/2">
+        <%= image_tag "startup.jpg", class: "w-full h-96 md:h-[28rem] lg:h-[32rem] rounded-xl shadow-2xl object-cover" %>
+      </div>
+      <div class="md:w-1/2 text-center md:text-left">
+        <h2 class="text-6xl md:text-7xl font-medium mb-4">Highlight your project, find investors</h2>
+        <p class="text-xl text-black mb-16 font-light">
+          Connect with investors, rapidly grow your projects, and seize opportunities.
+        </p>
+        <div class="text-center md:text-left">
+          <p class="text-black mb-2 font-light">
+            Visibility, detailed project profiles and fast communication for early stage startups. Easy filtering and access to opportunities for investors.
+          </p>
+          <a href="#start" class="inline-block bg-[#cbf36e] font-normal px-6 py-3 rounded-lg transition-all duration-300 hover:bg-[#d9ff90] hover:scale-105 hover:shadow-lg">
+            Get Started
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer class="bg-black text-white py-12">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
+      <p class="text-sm text-gray-400 text-center md:text-left">
+        &copy; <%= Time.current.year %> <span class="font-semibold text-white">FoundUp</span>. All rights reserved.
+      </p>
+      <div class="flex flex-col md:flex-row gap-3 md:gap-6 text-sm text-gray-400 text-center md:text-right">
+        <a href="#" class="hover:text-white transition-colors duration-300">Privacy Policy</a>
+        <a href="#" class="hover:text-white transition-colors duration-300">Terms of Service</a>
+        <a href="#" class="hover:text-white transition-colors duration-300">Contact</a>
+      </div>
+    </div>
+  </footer>
+</div>

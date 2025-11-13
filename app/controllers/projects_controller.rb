@@ -2,6 +2,14 @@ class ProjectsController < ApplicationController
   before_action :set_project, only: [ :show, :edit, :update, :destroy ]
   def index
     @projects = Project.all
+
+    if params[:search].present?
+      @projects = @projects.where("name ILIKE ?", "%#{params[:search]}%")
+    end
+
+    if params[:category].present?
+      @projects = @projects.where(category: params[:category])
+    end
   end
   def show
   end

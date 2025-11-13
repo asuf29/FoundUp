@@ -1,1 +1,67 @@
-<%= @project.name %>
+<section class="max-w-5xl mx-auto px-6 py-16">
+  <!-- Başlık & Kategori -->
+  <div class="mb-10 text-center">
+    <h1 class="text-4xl md:text-5xl font-semibold text-gray-900 mb-2"><%= @project.name %></h1>
+    <p class="text-gray-500 text-sm uppercase tracking-wide">
+      <%= @project.category&.titleize || "Uncategorized" %>
+    </p>
+  </div>
+
+  <!-- Görsel -->
+  <div class="rounded-2xl overflow-hidden shadow-md mb-10">
+    <% if @project.images.attached? %>
+      <%= image_tag @project.images.first, class: "w-full h-96 object-cover" %>
+    <% else %>
+      <div class="bg-gray-100 h-96 flex items-center justify-center text-gray-400">
+        <span>No Image Available</span>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- İçerik -->
+  <div class="grid md:grid-cols-3 gap-8">
+    <!-- Sol: Açıklama -->
+    <div class="md:col-span-2">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">About the Project</h2>
+      <p class="text-gray-600 leading-relaxed mb-6">
+        <%= @project.content.presence || "No detailed description provided yet." %>
+      </p>
+
+      <div class="bg-gray-50 border border-gray-100 rounded-xl p-6 mb-8">
+        <h3 class="text-lg font-semibold mb-3 text-gray-800">Goals & Vision</h3>
+        <p class="text-gray-600 text-sm leading-relaxed">
+          <%= @project.goals.presence || "The project owner hasn't shared specific goals yet." %>
+        </p>
+      </div>
+
+      <%# <%= link_to "Visit Website", @project.website, target: "_blank",
+          class: "inline-block bg-[#cbf36e] text-black px-6 py-3 rounded-lg font-medium hover:bg-[#d8ff8e] hover:shadow-lg transition" if @project.website.present? %> 
+    </div>
+
+    <!-- Sağ: Bilgiler Paneli -->
+    <div class="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 h-fit">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Project Details</h3>
+
+      <ul class="text-gray-600 text-sm space-y-2">
+        <li><strong>Creator:</strong> <%= @project.creator.username %></li>
+        <li><strong>Category:</strong> <%= @project.category&.titleize %></li>
+        <% if @project.funding_goal.present? %>
+          <li><strong>Funding Goal:</strong> $<%= number_with_delimiter(@project.funding_goal) %></li>
+        <% end %>
+        <% if @project.location.present? %>
+          <li><strong>Location:</strong> <%= @project.location %></li>
+        <% end %>
+      </ul>
+
+      <hr class="my-4 border-gray-200" />
+
+      <div class="flex items-center justify-between">
+        <span class="text-sm text-gray-500">Created at:</span>
+        <span class="text-sm font-medium text-gray-700"><%= @project.created_at.strftime("%B %d, %Y") %></span>
+      </div>
+
+      <%= link_to "Contact Creator", "#contact",
+          class: "block mt-6 w-full text-center bg-black text-white py-2.5 rounded-lg font-medium hover:bg-gray-900 transition-all duration-200" %>
+    </div>
+  </div>
+</section>

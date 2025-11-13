@@ -1,0 +1,46 @@
+  <nav class="flex justify-between items-center px-8 py-4 bg-black shadow-sm border-b border-black sticky top-0 z-50">
+    <h1 class="text-2xl font-bold text-white tracking-tight">
+      <a href="/" class="relative group">
+        FoundUp
+        <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-[#cbf36e] transition-all duration-300 group-hover:w-full"></span>
+      </a>
+    </h1>
+    <ul class="hidden md:flex gap-8 text-white font-medium">
+      <li>
+        <%= link_to "Home",
+            root_path,
+            class: "hover:text-[#cbf36e] transition-all duration-300" %>
+      </li>
+      <li>
+        <%= link_to "Projects",
+            projects_path,
+            class: "hover:text-[#cbf36e] transition-all duration-300" %>
+      </li>
+      <li>
+        <%= link_to "About",
+            "#about_path",
+            class: "hover:text-[#cbf36e] transition-all duration-300" %>
+      </li>
+      <li>
+        <%= link_to "Contact",
+            "#contact_path",
+            class: "hover:text-[#cbf36e] transition-all duration-300" %>
+      </li>
+    </ul>
+    <div class="flex items-center gap-3">
+      <% if user_signed_in? %>
+        <%= button_to "Log out",
+            destroy_user_session_path,
+            method: :delete,
+            class: "relative bg-[#cbf36e] text-black text-lg rounded-lg px-4 py-2 font-medium overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg" %>
+      <% else %>
+        <%= link_to "Login",
+            new_user_session_path,
+            class: "text-white hover:text-[#cbf36e] transition-all duration-300" %>
+
+        <%= link_to "Sign Up",
+            new_user_registration_path,
+            class: "relative bg-[#cbf36e] text-white px-5 py-2 rounded-lg font-medium overflow-hidden transition-all duration-300 hover:bg-[#a3c940] hover:scale-105 hover:shadow-lg" %>
+      <% end %>
+    </div>
+  </nav>

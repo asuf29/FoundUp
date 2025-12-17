@@ -1,67 +1,186 @@
-<section class="max-w-5xl mx-auto px-6 py-16">
-  <!-- Başlık & Kategori -->
-  <div class="mb-10 text-center">
-    <h1 class="text-4xl md:text-5xl font-semibold text-gray-900 mb-2"><%= @project.name %></h1>
-    <p class="text-gray-500 text-sm uppercase tracking-wide">
-      <%= @project.category&.titleize || "Uncategorized" %>
-    </p>
-  </div>
-
-  <!-- Görsel -->
-  <div class="rounded-2xl overflow-hidden shadow-md mb-10">
-    <% if @project.images.attached? %>
-      <%= image_tag @project.images.first, class: "w-full h-96 object-cover" %>
-    <% else %>
-      <div class="bg-gray-100 h-96 flex items-center justify-center text-gray-400">
-        <span>No Image Available</span>
+<div class="flex-1 bg-gray-50">
+  <section class="bg-black text-center py-20">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="mb-4">
+        <span class="inline-block px-4 py-2 bg-[#966ef3]/20 text-[#966ef3] text-sm font-semibold rounded-full">
+          <%= @project.category&.titleize || "Uncategorized" %>
+        </span>
       </div>
-    <% end %>
-  </div>
-
-  <!-- İçerik -->
-  <div class="grid md:grid-cols-3 gap-8">
-    <!-- Sol: Açıklama -->
-    <div class="md:col-span-2">
-      <h2 class="text-2xl font-semibold text-gray-800 mb-4">About the Project</h2>
-      <p class="text-gray-600 leading-relaxed mb-6">
-        <%= @project.content.presence || "No detailed description provided yet." %>
+      <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
+        <%= @project.name %>
+      </h1>
+      <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+        by <span class="text-[#cbf36e] font-semibold"><%= @project.creator.username %></span>
       </p>
+    </div>
+  </section>
 
-      <div class="bg-gray-50 border border-gray-100 rounded-xl p-6 mb-8">
-        <h3 class="text-lg font-semibold mb-3 text-gray-800">Goals & Vision</h3>
-        <p class="text-gray-600 text-sm leading-relaxed">
-          <%= @project.goals.presence || "The project owner hasn't shared specific goals yet." %>
-        </p>
-      </div>
-
-      <%# <%= link_to "Visit Website", @project.website, target: "_blank",
-          class: "inline-block bg-[#cbf36e] text-black px-6 py-3 rounded-lg font-medium hover:bg-[#d8ff8e] hover:shadow-lg transition" if @project.website.present? %> 
+  <section class="max-w-5xl mx-auto px-6 py-6">
+    <div class="mb-16">
+      <%= link_to projects_path, class: "inline-flex items-center gap-3 bg-white border-2 border-gray-200 hover:border-[#cbf36e] text-gray-700 hover:text-[#cbf36e] px-6 py-3 rounded-xl font-semibold shadow-sm hover:shadow-md transition-all duration-300 group" do %>
+        <div class="flex items-center justify-center w-8 h-8 bg-gray-100 group-hover:bg-[#cbf36e] rounded-lg transition-colors duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600 group-hover:text-white transition-colors duration-300 group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </div>
+        <span>Back to Projects</span>
+      <% end %>
     </div>
 
-    <!-- Sağ: Bilgiler Paneli -->
-    <div class="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 h-fit">
-      <h3 class="text-lg font-semibold text-gray-800 mb-4">Project Details</h3>
+    <div class="rounded-2xl overflow-hidden shadow-xl mb-12 -mt-10 relative z-10">
+      <% if @project.images.attached? %>
+        <%= image_tag @project.images.first, class: "w-full h-[32rem] object-cover" %>
+      <% else %>
+        <div class="bg-gradient-to-br from-gray-100 to-gray-200 h-[32rem] flex items-center justify-center text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-24 h-24 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+      <% end %>
+    </div>
 
-      <ul class="text-gray-600 text-sm space-y-2">
-        <li><strong>Creator:</strong> <%= @project.creator.username %></li>
-        <li><strong>Category:</strong> <%= @project.category&.titleize %></li>
-        <% if @project.funding_goal.present? %>
-          <li><strong>Funding Goal:</strong> $<%= number_with_delimiter(@project.funding_goal) %></li>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="md:col-span-2">
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 mb-6">
+          <h2 class="text-3xl font-bold text-gray-900 mb-6">About the Project</h2>
+          <div class="prose prose-lg max-w-none text-gray-600 leading-relaxed">
+            <% if @project.content.present? %>
+              <%= @project.content %>
+            <% else %>
+              <p class="text-gray-500 italic">No detailed description provided yet.</p>
+            <% end %>
+          </div>
+        </div>
+
+        <% if @project.goals.present? %>
+          <div class="bg-gradient-to-br from-[#cbf36e]/10 via-white to-[#966ef3]/10 border border-[#cbf36e]/20 rounded-2xl shadow-lg overflow-hidden">
+            <div class="bg-gradient-to-r from-[#966ef3]/20 to-[#cbf36e]/20 px-8 py-6 border-b border-[#cbf36e]/20">
+              <h3 class="text-3xl font-bold text-gray-900 mb-2 flex items-center">
+                <div class="w-12 h-12 bg-gradient-to-br from-[#966ef3] to-[#cbf36e] rounded-xl flex items-center justify-center mr-4 shadow-md">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                  </svg>
+                </div>
+                Goals & Vision
+              </h3>
+              <p class="text-gray-600 text-sm ml-16">Our mission and what we aim to achieve</p>
+            </div>
+
+            <div class="p-8">
+              <% 
+                goals_text = @project.goals
+                goals_lines = goals_text.split(/\r?\n/).map(&:strip).reject(&:empty?)
+                is_list_format = goals_lines.any? { |line| line.match?(/^[-*•]\s+|^\d+[.)]\s+|^[A-Z][a-z]+:/) }
+              %>
+
+              <% if is_list_format %>
+                <div class="space-y-4">
+                  <% goals_lines.each_with_index do |line, index| %>
+                    <% 
+                      is_bullet = line.match?(/^[-*•]\s+/)
+                      is_numbered = line.match?(/^\d+[.)]\s+/)
+                      is_colon = line.match?(/^[A-Z][a-z]+:/)
+                      clean_line = line.gsub(/^[-*•]\s+|^\d+[.)]\s+/, '').strip
+                    %>
+                    <div class="flex items-start group hover:bg-white/50 rounded-lg p-3 -mx-3 transition-colors duration-200">
+                      <div class="flex-shrink-0 mt-1">
+                        <% if is_numbered %>
+                          <span class="flex items-center justify-center w-8 h-8 bg-gradient-to-br from-[#966ef3] to-[#cbf36e] text-white rounded-lg text-sm font-bold shadow-sm">
+                            <%= line.match(/^\d+/)[0] %>
+                          </span>
+                        <% elsif is_colon %>
+                          <div class="w-2 h-2 bg-[#966ef3] rounded-full mt-2"></div>
+                        <% else %>
+                          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#cbf36e] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        <% end %>
+                      </div>
+                      <div class="ml-4 flex-1">
+                        <% if is_colon %>
+                          <p class="text-gray-900 font-semibold mb-1"><%= clean_line %></p>
+                        <% else %>
+                          <p class="text-gray-700 leading-relaxed"><%= clean_line %></p>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="prose prose-lg max-w-none">
+                  <% goals_text.split(/\r?\n\r?\n/).each do |paragraph| %>
+                    <p class="text-gray-700 leading-relaxed mb-4 text-lg">
+                      <%= paragraph.strip %>
+                    </p>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+
+            <div class="bg-white/50 px-8 py-4 border-t border-[#cbf36e]/20">
+              <div class="flex items-center justify-between text-sm">
+                <div class="flex items-center text-gray-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1.5 text-[#966ef3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>Last updated: <%= @project.updated_at.strftime("%B %d, %Y") %></span>
+                </div>
+                <div class="flex items-center text-gray-600">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1.5 text-[#cbf36e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span>Active Project</span>
+                </div>
+              </div>
+            </div>
+          </div>
         <% end %>
-        <% if @project.location.present? %>
-          <li><strong>Location:</strong> <%= @project.location %></li>
-        <% end %>
-      </ul>
-
-      <hr class="my-4 border-gray-200" />
-
-      <div class="flex items-center justify-between">
-        <span class="text-sm text-gray-500">Created at:</span>
-        <span class="text-sm font-medium text-gray-700"><%= @project.created_at.strftime("%B %d, %Y") %></span>
       </div>
 
-      <%= link_to "Contact Creator", "#contact",
-          class: "block mt-6 w-full text-center bg-black text-white py-2.5 rounded-lg font-medium hover:bg-gray-900 transition-all duration-200" %>
+      <div class="space-y-6">
+        <div class="bg-white border border-gray-100 rounded-2xl shadow-lg p-6 sticky top-24">
+          <h3 class="text-xl font-bold text-gray-900 mb-6">Project Details</h3>
+
+          <div class="space-y-4">
+            <div>
+              <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Creator</p>
+              <p class="text-gray-900 font-semibold"><%= @project.creator.username %></p>
+            </div>
+
+            <div>
+              <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Category</p>
+              <span class="inline-block px-3 py-1 bg-[#966ef3]/10 text-[#966ef3] text-sm font-semibold rounded-full">
+                <%= @project.category&.titleize || "Uncategorized" %>
+              </span>
+            </div>
+
+            <% if @project.funding_goal.present? %>
+              <div>
+                <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Funding Goal</p>
+                <p class="text-gray-900 font-semibold text-lg">$<%= number_with_delimiter(@project.funding_goal) %></p>
+              </div>
+            <% end %>
+
+            <% if @project.location.present? %>
+              <div>
+                <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Location</p>
+                <p class="text-gray-900 font-semibold"><%= @project.location %></p>
+              </div>
+            <% end %>
+
+            <hr class="border-gray-200 my-4" />
+
+            <div>
+              <p class="text-xs text-gray-500 uppercase tracking-wide mb-1">Created</p>
+              <p class="text-gray-700 text-sm"><%= @project.created_at.strftime("%B %d, %Y") %></p>
+            </div>
+          </div>
+
+          <%= link_to "#contact", class: "block mt-6 w-full text-center bg-black text-white py-3 rounded-xl font-semibold hover:bg-gray-900 transition-all duration-300 hover:scale-105 hover:shadow-lg" do %>
+            Contact Creator
+          <% end %>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
